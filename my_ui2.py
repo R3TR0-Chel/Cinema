@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Movie_class import Movie
+from my_ui3 import Ui_Form3
 
 
 class Ui_Form2(object):
@@ -12,6 +13,7 @@ class Ui_Form2(object):
             "Drive": Movie("Drive", ["12:00", "14:00", "15:00", "17:00"], 600),
         }
         self.ticket_ids = {}
+        self.user_history=[]
         self.report = {}
         
     def user_status(self,user_name):
@@ -45,7 +47,7 @@ class Ui_Form2(object):
         font.setPointSize(11)
         self.Movie_info_button.setFont(font)
         self.Movie_info_button.setObjectName("Movie_info_button")
-
+        self.Movie_info_button.clicked.connect(self.on_movie_info_button_clicked)
         self.User_history_button = QtWidgets.QPushButton(Form2)
         self.User_history_button.setGeometry(QtCore.QRect(240, 720, 161, 71))
         font = QtGui.QFont()
@@ -61,14 +63,12 @@ class Ui_Form2(object):
         self.Movie_list.setObjectName("Movie_list")
         self.Movie_list.addItems(self.movies.keys())
         self.Movie_list.itemClicked.connect(self.display_schedule)
-
         self.Schedule_list = QtWidgets.QListWidget(Form2)
         self.Schedule_list.setGeometry(QtCore.QRect(340, 20, 256, 511))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.Schedule_list.setFont(font)
         self.Schedule_list.setObjectName("Schedule_list")
-
         self.retranslateUi(Form2)
         QtCore.QMetaObject.connectSlotsByName(Form2)
 
@@ -77,6 +77,18 @@ class Ui_Form2(object):
         schedule = self.movies.get(movie_name, [])
         self.Schedule_list.clear()
         self.Schedule_list.addItems(schedule.get_schedule())
+        
+    def on_movie_info_button_clicked(self):
+        movie_name = self.Movie_list.currentItem()
+        if movie_name:
+          self.report_window = QtWidgets.QWidget()
+          self.ui_report = Ui_Form3()
+          self.ui_report.setupUi(self.report_window)
+          self.ui_report.movie_label.setText(movie_name.text())
+          self.report_window.show()
+        else:
+            print('1')
+        
 
     def retranslateUi(self, Form2):
         _translate = QtCore.QCoreApplication.translate
