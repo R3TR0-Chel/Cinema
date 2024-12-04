@@ -58,7 +58,6 @@ class Ui_NU_page(object):
         request = requests.post("http://aleck.pythonanywhere.com/registration", json={"name":name,"password":password,"username":user_name})
         if request.status_code == 201:
             print("Added")
-            nu_page.close()
             
         else:
             print("Error")

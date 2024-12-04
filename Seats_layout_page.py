@@ -3,16 +3,22 @@ import requests
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QVBoxLayout, QLabel, QMessageBox, QHBoxLayout, QFrame
 from PyQt5.QtCore import Qt
 
-class SeatBookingApp(QWidget):
+class SeatBookingApp(object):
     def __init__(self, seat_data_url):
-        super().__init__()
-        self.setWindowTitle("Seat Booking Plan")
-        self.setStyleSheet("background-color: #ffffff;")
         self.seat_data_url = seat_data_url
+        self.user = None
+        self.movie = None
+        self.time = None 
         self.initUI()
+        
+    def add_atributs(self,user,movie,time):
+        self.user = user 
+        self.movie = movie
+        self.time = time
 
-    def initUI(self):
+    def initUI(self,):
         main_layout = QVBoxLayout()
+        
 
         # Title Label
         title_label = QLabel("Seats plan for booking")
@@ -51,13 +57,11 @@ class SeatBookingApp(QWidget):
         button_layout.addStretch()
         main_layout.addLayout(button_layout)
 
-        # Set main layout
-        self.setLayout(main_layout)
 
     def fetch_seat_data(self):
         try:
-            response = requests.get(self.seat_data_url)
-            response.raise_for_status()
+            response = requests.post(self.seat_data_url , json = {"movie":self.movie,"schedule":self.time,"username":self.user})
+            print(response.status_code)
             seat_data = response.json()
             self.generate_seats(seat_data)
         except requests.exceptions.RequestException as e:

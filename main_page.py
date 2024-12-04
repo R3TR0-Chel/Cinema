@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Movies_class import movie
-
+from Seats_layout_page import SeatBookingApp
 class Ui_Main_page(object):
     def __init__(self):
         self.user = None
@@ -21,8 +21,9 @@ class Ui_Main_page(object):
         self.schedule_classes = {"Gladiator II":movie("Gladiator II",["12:00","14:00","17:00","20:30"],500),
                          "Moana 2":movie("Moana 2",["10:00","12:00","14:00","21:00"],450),
                          "Batman": movie("Batman",["20:00","21:00","22:00","23:30"],600),
-                         "Interseallar":movie("Interstellar",["20:00","21:00"],500)
+                         "Interstellar":movie("Interstellar",["20:00","21:00"],500)
                          }
+        self.seats_plan=None
     
     def add_user(self,name):
         self.user = name
@@ -99,6 +100,7 @@ class Ui_Main_page(object):
         font.setPointSize(15)
         self.Buy_button.setFont(font)
         self.Buy_button.setObjectName("Buy_button")
+        self.Buy_button.clicked.connect(self.buy_button_clicked)
         
         self.movie_info_button = QtWidgets.QPushButton(Main_page)
         self.movie_info_button.setGeometry(QtCore.QRect(550, 550, 180, 65))
@@ -142,7 +144,18 @@ class Ui_Main_page(object):
         schedule = self.schedule_classes.get(movie_name, []) .get_schedule()
         self.Schedule_list.clear()
         self.Schedule_list.addItems(schedule)
-        
+    
+    def buy_button_clicked(self):
+        time = self.Schedule_list.currentItem().text()
+        movie = self.Movie_list.currentItem().text()
+        if time and movie:
+            if self.seats_plan is None:
+                self.seats_plan = QtWidgets.QWidget()
+                self.ui_seats = SeatBookingApp("http://aleck.pythonanywhere.com/seats")
+                self.ui_seats.initUI(self.seats_plan)
+        self.ui_seats.add_atributs(self.user,movie,time)
+        self.seats_plan.show()
+            
 
     def retranslateUi(self, Main_page):
         _translate = QtCore.QCoreApplication.translate
