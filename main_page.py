@@ -5,11 +5,11 @@ class Ui_Main_page(object):
     def __init__(self):
         self.user = None
         self.Movies_left = {
-            "Gladiator II": "./images/ackground.jpg",
-            "Moana 2": "./images/ackground.jpg",
-            "Batman": "./images/ackground.jpg",
-            "John Wick": "./images/ackground.jpg",
-            "Inception": "./images/ackground.jpg"
+            "Gladiator II": "./images/glad.jpg",
+            "Moana 2": "./images/moana-2.jpeg",
+            "Batman": "./images/bat.jpg",
+            "John Wick": "./images/jw.webp",
+            "Inception": "./images/inc.jpg"
         }
         self.Movies_right = {
             "Interstellar": "./images/int.jfif",
