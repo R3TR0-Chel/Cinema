@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Movies_class import movie
-from Seats_layout_page import SeatBookingApp
+from seats_plane import seating_plan
 class Ui_Main_page(object):
     def __init__(self):
         self.user = None
@@ -12,11 +12,11 @@ class Ui_Main_page(object):
             "Inception": "./images/ackground.jpg"
         }
         self.Movies_right = {
-            "Interstellar": "./images/ackground.jpg",
-            "Spider-Man": "./images/ackground.jpg",
-            "Avatar": "./images/ackground.jpg",
-            "Kizumonogatari": "./images/ackground.jpg",
-            "Weathering with You":"./images/ackground.jpg"
+            "Interstellar": "./images/int.jfif",
+            "Spider-Man": "./images/sp.jpg",
+            "Avatar": "./images/avatar.jpg",
+            "Kizumonogatari": "./images/kizu.jpg",
+            "Weathering with You":"./images/wwu.jpg"
         }
         self.schedule_classes = {"Gladiator II":movie("Gladiator II",["12:00","14:00","17:00","20:30"],500),
                          "Moana 2":movie("Moana 2",["10:00","12:00","14:00","21:00"],450),
@@ -32,29 +32,38 @@ class Ui_Main_page(object):
     def setupUi(self, Main_page):
         Main_page.setObjectName("Main_page")
         Main_page.resize(1270, 720)
-
-        # Левый контейнер
+        Main_page.setStyleSheet(
+            """
+            #Main_page {
+                background-image: url('./images/ackground.jpg');
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            """)
+         # Левый контейнер
         self.Left_container = QtWidgets.QWidget(Main_page)
         self.Left_container.setGeometry(QtCore.QRect(25, 65, 250, 600))
         self.Left_container.setObjectName("Left_container")
         
-        # Создаем QScrollArea для левого контейнера
+
+     # Создаем QScrollArea для левого контейнера
         self.Left_scroll_area = QtWidgets.QScrollArea(self.Left_container)
         self.Left_scroll_area.setGeometry(QtCore.QRect(0, 0, 250, 600))
         self.Left_scroll_area.setWidgetResizable(True)
         self.Left_scroll_area.setObjectName("Left_scroll_area")
 
-        # Виджет для содержимого левого контейнера
+# Виджет для содержимого левого контейнера
         self.Left_content = QtWidgets.QWidget()
         self.Left_content.setObjectName("Left_content")
         self.Left_scroll_area.setWidget(self.Left_content)
 
-        # Правый контейнер
+
+# Правый контейнер
         self.Right_container = QtWidgets.QWidget(Main_page)
         self.Right_container.setGeometry(QtCore.QRect(996, 65, 250, 600))
         self.Right_container.setObjectName("Right_container")
-        
-        # Создаем QScrollArea для правого контейнера
+
+# Создаем QScrollArea для правого контейнера
         self.Right_scroll_area = QtWidgets.QScrollArea(self.Right_container)
         self.Right_scroll_area.setGeometry(QtCore.QRect(0, 0, 250, 600))
         self.Right_scroll_area.setWidgetResizable(True)
@@ -67,11 +76,30 @@ class Ui_Main_page(object):
 
         # Настройка шрифта заголовка
         self.Title = QtWidgets.QLabel(Main_page)
-        self.Title.setGeometry(QtCore.QRect(520, 30, 281, 51))
+        self.Title.setGeometry(QtCore.QRect(490, 20, 300, 85))
         font = QtGui.QFont()
         font.setPointSize(32)
         self.Title.setFont(font)
+        self.Title.setAlignment(QtCore.Qt.AlignCenter)
         self.Title.setObjectName("Title")
+        self.Title.setStyleSheet("""
+            QLabel {
+                background-color: #f0ad4e; /* Оранжевый цвет */
+                border: none;
+                border-radius: 20px; /* Закругленные края */
+                color: white;
+                font-size: 32px; /* Увеличенный шрифт */
+                font-weight: bold; /* Полужирный текст */
+                padding: 10px; /* Отступы внутри кнопки */
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
+            }
+            QPushButton:hover {
+                background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
+            }
+            QPushButton:pressed {
+                background-color: #d98a36; /* Темный оранжевый при нажатии */
+            }
+        """)
 
         # Создание и настройка списка для фильмов
         self.frame = QtWidgets.QFrame(Main_page)
@@ -85,10 +113,59 @@ class Ui_Main_page(object):
         self.Movie_list.setObjectName("Movie_list")
         self.Movie_list.addItems(self.schedule_classes.keys())
         self.Movie_list.itemClicked.connect(self.show_movies)
+        self.Movie_list.setStyleSheet("""
+    QListWidget {
+        background-color: rgba(200, 200, 200, 200); /* Прозрачный черный фон */
+        border: 2px solid white; /* Белая рамка */
+        border-radius: 15px; /* Закругленные углы */
+        color: white; /* Цвет текста */
+        font-size: 14px; /* Размер шрифта */
+        padding: 5px; /* Внутренние отступы */
+    }
+    QListWidget::item {
+        background-color: rgba(50, 50, 50, 180); /* Светлый фон для элементов */
+        border-radius: 10px; /* Закругленные элементы */
+        margin: 5px; /* Отступы между элементами */
+        padding: 5px;
+    }
+    QListWidget::item:hover {
+        background-color: rgba(255, 255, 255, 60); /* Подсветка элемента при наведении */
+        color: black
+    }
+    QListWidget::item:selected {
+        background-color: #f0ad4e; /* Оранжевая подсветка выбранного элемента */
+        color: black; /* Цвет текста выбранного элемента */
+    }
+""")
+
         
         self.Schedule_list = QtWidgets.QListWidget(self.frame)
         self.Schedule_list.setGeometry(QtCore.QRect(290, 0, 311, 301))
         self.Schedule_list.setObjectName("Schedule_list")
+        self.Schedule_list.setStyleSheet("""
+    QListWidget {
+        background-color: rgba(200, 200, 200, 200); /* Прозрачный черный фон */
+        border: 2px solid white; /* Белая рамка */
+        border-radius: 15px; /* Закругленные углы */
+        color: white; /* Цвет текста */
+        font-size: 14px; /* Размер шрифта */
+        padding: 5px; /* Внутренние отступы */
+    }
+    QListWidget::item {
+        background-color: rgba(50, 50, 50, 180); /* Светлый фон для элементов */
+        border-radius: 10px; /* Закругленные элементы */
+        margin: 5px; /* Отступы между элементами */
+        padding: 5px;
+    }
+    QListWidget::item:hover {
+        background-color: rgba(255, 255, 255, 60); /* Подсветка элемента при наведении */
+        color: black
+    }
+    QListWidget::item:selected {
+        background-color: #f0ad4e; /* Оранжевая подсветка выбранного элемента */
+        color: black; /* Цвет текста выбранного элемента */
+    }
+""")
 
         # Добавляем постеры в контейнеры
         self.displayPosters()
@@ -101,6 +178,24 @@ class Ui_Main_page(object):
         self.Buy_button.setFont(font)
         self.Buy_button.setObjectName("Buy_button")
         self.Buy_button.clicked.connect(self.buy_button_clicked)
+        self.Buy_button.setStyleSheet("""
+            QPushButton {
+                background-color: #f0ad4e; /* Оранжевый цвет */
+                border: none;
+                border-radius: 20px; /* Закругленные края */
+                color: white;
+                font-size: 18px; /* Увеличенный шрифт */
+                font-weight: bold; /* Полужирный текст */
+                padding: 10px; /* Отступы внутри кнопки */
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
+            }
+            QPushButton:hover {
+                background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
+            }
+            QPushButton:pressed {
+                background-color: #d98a36; /* Темный оранжевый при нажатии */
+            }
+        """)
         
         self.movie_info_button = QtWidgets.QPushButton(Main_page)
         self.movie_info_button.setGeometry(QtCore.QRect(550, 550, 180, 65))
@@ -108,6 +203,24 @@ class Ui_Main_page(object):
         font.setPointSize(15)
         self.movie_info_button.setFont(font)
         self.movie_info_button.setObjectName("movie_info_button")
+        self.movie_info_button.setStyleSheet("""
+            QPushButton {
+                background-color: #f0ad4e; /* Оранжевый цвет */
+                border: none;
+                border-radius: 20px; /* Закругленные края */
+                color: white;
+                font-size: 18px; /* Увеличенный шрифт */
+                font-weight: bold; /* Полужирный текст */
+                padding: 10px; /* Отступы внутри кнопки */
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
+            }
+            QPushButton:hover {
+                background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
+            }
+            QPushButton:pressed {
+                background-color: #d98a36; /* Темный оранжевый при нажатии */
+            }
+        """)
         
         self.User_history_button = QtWidgets.QPushButton(Main_page)
         self.User_history_button.setGeometry(QtCore.QRect(550, 620, 180, 65))
@@ -115,6 +228,24 @@ class Ui_Main_page(object):
         font.setPointSize(15)
         self.User_history_button.setFont(font)
         self.User_history_button.setObjectName("User_history_button")
+        self.User_history_button.setStyleSheet("""
+            QPushButton {
+                background-color: #f0ad4e; /* Оранжевый цвет */
+                border: none;
+                border-radius: 20px; /* Закругленные края */
+                color: white;
+                font-size: 18px; /* Увеличенный шрифт */
+                font-weight: bold; /* Полужирный текст */
+                padding: 10px; /* Отступы внутри кнопки */
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
+            }
+            QPushButton:hover {
+                background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
+            }
+            QPushButton:pressed {
+                background-color: #d98a36; /* Темный оранжевый при нажатии */
+            }
+        """)
 
         self.retranslateUi(Main_page)
         QtCore.QMetaObject.connectSlotsByName(Main_page)
@@ -146,14 +277,13 @@ class Ui_Main_page(object):
         self.Schedule_list.addItems(schedule)
     
     def buy_button_clicked(self):
-        time = self.Schedule_list.currentItem().text()
-        movie = self.Movie_list.currentItem().text()
-        if time and movie:
-            if self.seats_plan is None:
-                self.seats_plan = QtWidgets.QWidget()
-                self.ui_seats = SeatBookingApp("http://aleck.pythonanywhere.com/seats")
-                self.ui_seats.initUI(self.seats_plan)
-        self.ui_seats.add_atributs(self.user,movie,time)
+      time = self.Schedule_list.currentItem().text()
+      movie = self.Movie_list.currentItem().text()
+      if time and movie:
+        if self.seats_plan is None:
+            self.seats_plan = QtWidgets.QWidget()
+            self.ui_seats = seating_plan(movie,time,self.user)
+            self.ui_seats.setupUi(self.seats_plan)  # Передаём self.seats_plan, а не self.ui_seats
         self.seats_plan.show()
             
 
