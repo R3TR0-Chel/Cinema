@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import requests
 
-
-class Ui_Log_in_page(object):
+class Ui_NU_page(object):
     def setupUi(self, Log_in_page):
         Log_in_page.setObjectName("Log_in_page")
         Log_in_page.resize(700, 730)
@@ -31,6 +31,7 @@ class Ui_Log_in_page(object):
         self.sign_in_button = QtWidgets.QPushButton(Log_in_page)
         self.sign_in_button.setGeometry(QtCore.QRect(270, 510, 175, 71))
         self.sign_in_button.setObjectName("sign_in_button")
+        self.sign_in_button.clicked.connect(self.sing_in_clicked)
         self.verify_password_input = QtWidgets.QLineEdit(Log_in_page)
         self.verify_password_input.setGeometry(QtCore.QRect(170, 390, 371, 41))
         font = QtGui.QFont()
@@ -49,13 +50,25 @@ class Ui_Log_in_page(object):
         self.name_input.setPlaceholderText(_translate("Log_in_page", "Name"))
         self.sign_in_button.setText(_translate("Log_in_page", "Sign in"))
         self.verify_password_input.setPlaceholderText(_translate("Log_in_page", "Password"))
+        
+    def sing_in_clicked(self):
+        name = self.name_input.text().strip()
+        user_name = self.User_name_input.text().strip()
+        password = self.verify_password_input.text().strip()
+        request = requests.post("http://aleck.pythonanywhere.com/registration", json={"name":name,"password":password,"username":user_name})
+        if request.status_code == 201:
+            print("Added")
+            nu_page.close()
+            
+        else:
+            print("Error")
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Log_in_page = QtWidgets.QWidget()
-    ui = Ui_Log_in_page()
-    ui.setupUi(Log_in_page)
-    Log_in_page.show()
+    nu_page = QtWidgets.QWidget()
+    ui = Ui_NU_page()
+    ui.setupUi(nu_page)
+    nu_page.show()
     sys.exit(app.exec_())
