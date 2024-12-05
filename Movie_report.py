@@ -2,6 +2,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_Movie_report(object):
+    def __init__(self):
+        self.movie = None
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(750, 800)
@@ -14,6 +16,7 @@ class Ui_Movie_report(object):
             }
             """
         )
+    
 
         # Title (Logo) Outside the Frame
         self.logo_title = QtWidgets.QLabel(Form)
@@ -94,6 +97,9 @@ class Ui_Movie_report(object):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+        
+    def add_atridut(self,movie):
+        self.movie = movie
 
     def add_items_to_listview(self):
         # Create a list of strings to add
@@ -115,7 +121,7 @@ class Ui_Movie_report(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Movie Report"))
         self.logo_title.setText(_translate("Form", "Movie Point"))
-        self.Movie_title.setText(_translate("Form", "Title:"))
+        self.Movie_title.setText(_translate("Form", self.movie))
         self.quantity_title.setText(_translate("Form", "Quantity:"))
         self.title_output_2.setText(_translate("Form", "None"))
         self.seat_label.setText(_translate("Form", "Seats:"))

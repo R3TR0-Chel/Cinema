@@ -300,8 +300,10 @@ class Ui_Main_page(object):
             
     def movie_info_buttton_clicked(self):
         if self.Mi is None:
+            movie = self.Movie_list.currentItem().text()
             self.Mi = QtWidgets.QWidget()
             self.ui_mi=Ui_Movie_report()
+            self.ui_mi.add_atridut(movie)
             self.ui_mi.setupUi(self.Mi)
         else:
             print("error")
