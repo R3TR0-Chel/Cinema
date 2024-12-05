@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Movies_class import movie
 from seats_plane import seating_plan
+import requests
 from Movie_report import Ui_Movie_report
 from User_report import Ui_User_report
 class Ui_Main_page(object):
@@ -20,11 +21,6 @@ class Ui_Main_page(object):
             "Kizumonogatari": "./images/kizu.jpg",
             "Weathering with You":"./images/wwu.jpg"
         }
-        self.schedule_classes = {"Gladiator II":movie("Gladiator II",["12:00","14:00","17:00","20:30"],500),
-                         "Moana 2":movie("Moana 2",["10:00","12:00","14:00","21:00"],450),
-                         "Batman": movie("Batman",["20:00","21:00","22:00","23:30"],600),
-                         "Interstellar":movie("Interstellar",["20:00","21:00"],500)
-                         }
         self.seats_plan=None
         self.Mi=None
         self.Uinfo = None
@@ -44,6 +40,10 @@ class Ui_Main_page(object):
                 background-repeat: no-repeat;
             }
             """)
+        
+        request = requests.get("https://aleck.pythonanywhere.com/movies") 
+        self.schedule_classes =request.json()
+
          # Левый контейнер
         self.Left_container = QtWidgets.QWidget(Main_page)
         self.Left_container.setGeometry(QtCore.QRect(25, 65, 250, 600))
@@ -113,7 +113,7 @@ class Ui_Main_page(object):
         self.frame.setObjectName("frame")
 
         self.Movie_list = QtWidgets.QListWidget(self.frame)
-        self.Movie_list.setGeometry(QtCore.QRect(10, 0, 279, 301))
+        self.Movie_list.setGeometry(QtCore.QRect(0, 0, 291, 301))
         self.Movie_list.setObjectName("Movie_list")
         self.Movie_list.addItems(self.schedule_classes.keys())
         self.Movie_list.itemClicked.connect(self.show_movies)
@@ -144,7 +144,7 @@ class Ui_Main_page(object):
 
         
         self.Schedule_list = QtWidgets.QListWidget(self.frame)
-        self.Schedule_list.setGeometry(QtCore.QRect(290, 0, 279, 301))
+        self.Schedule_list.setGeometry(QtCore.QRect(290, 0, 311, 301))
         self.Schedule_list.setObjectName("Schedule_list")
         self.Schedule_list.setStyleSheet("""
     QListWidget {
@@ -278,7 +278,7 @@ class Ui_Main_page(object):
             
     def show_movies(self,item):
         movie_name = item.text()
-        schedule = self.schedule_classes.get(movie_name, []) .get_schedule()
+        schedule = self.schedule_classes[movie_name]
         self.Schedule_list.clear()
         self.Schedule_list.addItems(schedule)
     
@@ -289,22 +289,28 @@ class Ui_Main_page(object):
             if self.seats_plan is None:
                 self.seats_plan = QtWidgets.QWidget()
                 self.ui_seats = seating_plan()
-                self.ui_seats.add_atriburs(movie, time, self.user)
+                self.ui_seats.add_atriburs( self.user,time,movie)
                 self.ui_seats.setupUi(self.seats_plan)
             else:
-                self.ui_seats.add_atriburs(movie, time, self.user)
+                self.ui_seats.add_atriburs( self.user, time,movie)
                 print(self.ui_seats.movie,self.ui_seats.time)
                 self.ui_seats.setupUi(self.seats_plan)
                 print(True)
             self.seats_plan.show()
             
     def movie_info_buttton_clicked(self):
+        time = self.Schedule_list.currentItem().text()
+        movie = self.Movie_list.currentItem().text()
         if self.Mi is None:
             self.Mi = QtWidgets.QWidget()
             self.ui_mi=Ui_Movie_report()
+            self.ui_mi.add_data(movie, time)
             self.ui_mi.setupUi(self.Mi)
         else:
-            print("error")
+            self.Mi = QtWidgets.QWidget()
+            self.ui_mi=Ui_Movie_report()
+            self.ui_mi.add_data(movie, time)
+            self.ui_mi.setupUi(self.Mi)
         self.Mi.show()
     
     def user_info_button_clicked(self):
