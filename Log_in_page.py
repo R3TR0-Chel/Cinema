@@ -44,12 +44,7 @@ class Ui_Log_in_page(object):
                 padding: 10px; /* Отступы внутри кнопки */
                 box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
-            QPushButton:hover {
-                background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
-            }
-            QPushButton:pressed {
-                background-color: #d98a36; /* Темный оранжевый при нажатии */
-            }
+           
         """)
         
         self.User_name_input = QtWidgets.QLineEdit(Log_in_page)

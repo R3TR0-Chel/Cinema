@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Movies_class import movie
 from seats_plane import seating_plan
+from Movie_report import Ui_Movie_report
+from User_report import Ui_User_report
 class Ui_Main_page(object):
     def __init__(self):
         self.user = None
@@ -24,6 +26,8 @@ class Ui_Main_page(object):
                          "Interstellar":movie("Interstellar",["20:00","21:00"],500)
                          }
         self.seats_plan=None
+        self.Mi=None
+        self.Uinfo = None
     
     def add_user(self,name):
         self.user = name
@@ -199,6 +203,7 @@ class Ui_Main_page(object):
         
         self.movie_info_button = QtWidgets.QPushButton(Main_page)
         self.movie_info_button.setGeometry(QtCore.QRect(550, 550, 180, 65))
+        self.movie_info_button.clicked.connect(self.movie_info_buttton_clicked)
         font = QtGui.QFont()
         font.setPointSize(15)
         self.movie_info_button.setFont(font)
@@ -224,6 +229,7 @@ class Ui_Main_page(object):
         
         self.User_history_button = QtWidgets.QPushButton(Main_page)
         self.User_history_button.setGeometry(QtCore.QRect(550, 620, 180, 65))
+        self.User_history_button.clicked.connect(self.user_info_button_clicked)
         font = QtGui.QFont()
         font.setPointSize(15)
         self.User_history_button.setFont(font)
@@ -291,6 +297,26 @@ class Ui_Main_page(object):
                 self.ui_seats.setupUi(self.seats_plan)
                 print(True)
             self.seats_plan.show()
+            
+    def movie_info_buttton_clicked(self):
+        if self.Mi is None:
+            self.Mi = QtWidgets.QWidget()
+            self.ui_mi=Ui_Movie_report()
+            self.ui_mi.setupUi(self.Mi)
+        else:
+            print("error")
+        self.Mi.show()
+    
+    def user_info_button_clicked(self):
+        if self.Uinfo is None:
+            self.Uinfo = QtWidgets.QWidget()
+            self.ui_Ui=Ui_User_report(self.user)
+            self.ui_Ui.setupUi(self.Uinfo)
+        else:
+            print("error")
+        self.Uinfo.show()
+        
+        
             
 
     def retranslateUi(self, Main_page):
