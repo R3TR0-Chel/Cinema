@@ -113,7 +113,7 @@ class Ui_Main_page(object):
         self.frame.setObjectName("frame")
 
         self.Movie_list = QtWidgets.QListWidget(self.frame)
-        self.Movie_list.setGeometry(QtCore.QRect(0, 0, 291, 301))
+        self.Movie_list.setGeometry(QtCore.QRect(10, 0, 279, 301))
         self.Movie_list.setObjectName("Movie_list")
         self.Movie_list.addItems(self.schedule_classes.keys())
         self.Movie_list.itemClicked.connect(self.show_movies)
@@ -144,7 +144,7 @@ class Ui_Main_page(object):
 
         
         self.Schedule_list = QtWidgets.QListWidget(self.frame)
-        self.Schedule_list.setGeometry(QtCore.QRect(290, 0, 311, 301))
+        self.Schedule_list.setGeometry(QtCore.QRect(290, 0, 279, 301))
         self.Schedule_list.setObjectName("Schedule_list")
         self.Schedule_list.setStyleSheet("""
     QListWidget {
