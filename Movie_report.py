@@ -100,7 +100,7 @@ class Ui_Movie_report(object):
         
     def add_atridut(self,movie):
         self.movie = movie
-
+#lsdgljkn
     def add_items_to_listview(self):
         # Create a list of strings to add
         items = [
