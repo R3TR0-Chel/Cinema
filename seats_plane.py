@@ -67,7 +67,7 @@ class seating_plan(object):
 
     def fetch_seat_data(self):
         try:
-            print(self.movie)
+            print(self.movie, self.time)
             response = requests.post(self.seat_data_url, json={"movie": self.movie, "schedule": self.time, "username": self.user})
             response.raise_for_status()
             seat_data = response.json()

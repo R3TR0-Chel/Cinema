@@ -277,26 +277,20 @@ class Ui_Main_page(object):
         self.Schedule_list.addItems(schedule)
     
     def buy_button_clicked(self):
-      time = self.Schedule_list.currentItem().text()
-      movie = self.Movie_list.currentItem().text()
-      print(time, movie)
-      try:
-        print(self.ui_seats.time, self.ui_seats.movie)
-      except:
-        pass
-      if time and movie:
-        if self.seats_plan is None:
-            self.seats_plan = QtWidgets.QWidget()
-            self.ui_seats = seating_plan()
-            self.ui_seats.add_atriburs(movie,time,self.user)
-            self.ui_seats.setupUi(self.seats_plan)
-        if self.ui_seats.movie != movie and self.ui_seats.time != time :
-            print(True)
-            self.seats_plan = QtWidgets.QWidget()
-            self.ui_seats = seating_plan()
-            self.ui_seats.add_atriburs(movie,time,self.user)
-            self.ui_seats.setupUi(self.seats_plan)
-        self.seats_plan.show()
+        time = self.Schedule_list.currentItem().text()
+        movie = self.Movie_list.currentItem().text()
+        if time and movie:
+            if self.seats_plan is None:
+                self.seats_plan = QtWidgets.QWidget()
+                self.ui_seats = seating_plan()
+                self.ui_seats.add_atriburs(movie, time, self.user)
+                self.ui_seats.setupUi(self.seats_plan)
+            else:
+                self.ui_seats.add_atriburs(movie, time, self.user)
+                print(self.ui_seats.movie,self.ui_seats.time)
+                self.ui_seats.setupUi(self.seats_plan)
+                print(True)
+            self.seats_plan.show()
             
 
     def retranslateUi(self, Main_page):
