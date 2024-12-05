@@ -4,11 +4,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QPushButton
 
 class seating_plan(object):
-    def __init__(self,movie,time,user):
+    def __init__(self):
+        self.movie = None
+        self.time = None
+        self.user = None
+        self.selected_seats = []
+        
+    def add_atriburs(self,movie,time,user):
         self.movie = movie
         self.time = time
         self.user = user
-        self.selected_seats = []
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
