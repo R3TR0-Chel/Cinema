@@ -4,11 +4,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QPushButton
 
 class seating_plan(object):
-    def __init__(self,movie,time,user):
+    def __init__(self):
+        self.movie = None
+        self.time = None
+        self.user = None
+        self.selected_seats = []
+        
+    def add_atriburs(self,movie,time,user):
         self.movie = movie
         self.time = time
         self.user = user
-        self.selected_seats = []
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -62,10 +67,10 @@ class seating_plan(object):
 
     def fetch_seat_data(self):
         try:
+            print(self.movie, self.time)
             response = requests.post(self.seat_data_url, json={"movie": self.movie, "schedule": self.time, "username": self.user})
             response.raise_for_status()
             seat_data = response.json()
-            print(seat_data)
             self.generate_seats(seat_data)
         except requests.exceptions.RequestException as e:
             QMessageBox.critical(None, "Error", f"Failed to fetch seat data: {e}")
@@ -86,7 +91,6 @@ class seating_plan(object):
             for col_idx, seat in enumerate(row):
                 if seat == 1:  # Seat exists at this position
                     seat_button = QPushButton()
-                    seat_button.setProperty("index", [row_idx,col_idx])
                     seat_button.setFixedSize(40, 40)  # Square buttons
                     seat_button.setCheckable(True)
 
@@ -121,11 +125,9 @@ class seating_plan(object):
 
                     seat_button.clicked.connect(lambda _, b=seat_button: self.handle_seat_selection(b))
                     self.gridLayout.addWidget(seat_button, row_idx, col_idx)
-                    print(seat_button.property("index"))
 
     def handle_seat_selection(self, seat_button):
         if seat_button.isChecked():
-            
             seat_button.setStyleSheet("""
                 QPushButton {
                     background-color: #f0ad4e;  /* Selected seats color (orange) */
@@ -133,7 +135,6 @@ class seating_plan(object):
                     border: none;
                 }
             """)
-            self.selected_seats.append(seat_button.property("index"))
         
         else:
             seat_button.setStyleSheet("""
@@ -143,14 +144,10 @@ class seating_plan(object):
                     border: none;
                 }
             """)
-            self.selected_seats.remove(seat_button.property("index"))
 
     def buy_seats(self):
-        print(self.selected_seats)
-        request = requests.post("http://aleck.pythonanywhere.com/seats-buy", json={"username":self.user, "seats":self.selected_seats, "movie":self.movie, "schedule":self.time})
-        print(request.status_code)
+        
         QMessageBox.information(None, "Purchase", "Seats purchased successfully!")
-        self.fetch_seat_data()
 
 
 if __name__ == "__main__":
