@@ -10,10 +10,11 @@ class seating_plan(object):
         self.user = None
         self.selected_seats = []
         
-    def add_atriburs(self,movie,time,user):
-        self.movie = movie
-        self.time = time
+    def add_atriburs(self, data, user ,time,movie):
+        # self.seats = data
         self.user = user
+        self.time = time
+        self.movie = movie
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -57,7 +58,7 @@ class seating_plan(object):
         self.pushButton.clicked.connect(self.buy_seats)
 
         # Seat Booking Setup
-        self.seat_data_url = "http://aleck.pythonanywhere.com/seats"  # Example URL
+        self.seat_data_url = "https://aleck.pythonanywhere.com/seats"  # Example URL
         self.fetch_seat_data()
 
     def retranslateUi(self, Form):
@@ -68,14 +69,14 @@ class seating_plan(object):
     def fetch_seat_data(self):
         try:
             print(self.movie, self.time)
-            response = requests.post(self.seat_data_url, json={"movie": self.movie, "schedule": self.time, "username": self.user})
+            response = requests.post(self.seat_data_url, json={"movie": self.movie, "schedule": self.time})
             response.raise_for_status()
             seat_data = response.json()
             self.generate_seats(seat_data)
         except requests.exceptions.RequestException as e:
             QMessageBox.critical(None, "Error", f"Failed to fetch seat data: {e}")
 
-    def generate_seats(self, seat_data):
+    def generate_seats(self,seat_data):
         # Define the layout with empty spaces
         seat_layout = [
             [1] * 17,  # First row - 17 seats
@@ -85,7 +86,7 @@ class seating_plan(object):
             [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1]   # Fifth row with gaps
         ]
 
-        booked_seats = seat_data.get("booked", [])
+        booked_seats = seat_data
 
         for row_idx, row in enumerate(seat_layout):
             for col_idx, seat in enumerate(row):
@@ -93,7 +94,7 @@ class seating_plan(object):
                     seat_button = QPushButton()
                     seat_button.setFixedSize(40, 40)  # Square buttons
                     seat_button.setCheckable(True)
-
+                    seat_button.setProperty("index",[row_idx,col_idx])
                     # Define base style for all buttons with rounded edges
                     base_style = """
                         QPushButton {
@@ -109,7 +110,7 @@ class seating_plan(object):
                         }
                     """
                     # Identify if the seat is booked
-                    for user, seats in booked_seats.items(): 
+                    for user, seats in booked_seats["booked"].items(): 
                         if [row_idx, col_idx] in seats and self.user != user:
                             seat_button.setChecked(True)
                             seat_button.setEnabled(False)
@@ -119,9 +120,8 @@ class seating_plan(object):
                             seat_button.setEnabled(False)
                             seat_button.setObjectName("reserved_by_you")
                             seat_button.setStyleSheet(base_style)
-                            print("yours", seat_button.styleSheet())
                         else:
-                            seat_button.setStyleSheet(base_style)  # Available seats color (dark gray)
+                            seat_button.setStyleSheet(base_style) 
 
                     seat_button.clicked.connect(lambda _, b=seat_button: self.handle_seat_selection(b))
                     self.gridLayout.addWidget(seat_button, row_idx, col_idx)
@@ -135,6 +135,7 @@ class seating_plan(object):
                     border: none;
                 }
             """)
+            self.selected_seats.append(seat_button.property("index"))
         
         else:
             seat_button.setStyleSheet("""
@@ -144,9 +145,12 @@ class seating_plan(object):
                     border: none;
                 }
             """)
+            self.selected_seats.remove(seat_button.property("index"))
 
     def buy_seats(self):
-        
+        request = requests.post("https://aleck.pythonanywhere.com/seats-buy", json={"username":self.user, "schedule":self.time, "movie":self.movie, "seats":self.selected_seats})
+        print(request.json())
+        self.fetch_seat_data()
         QMessageBox.information(None, "Purchase", "Seats purchased successfully!")
 
 
