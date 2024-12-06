@@ -4,6 +4,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Movie_report(object):
     def __init__(self):
         self.movie = None
+        self.time = None
+        
+    def add_data(self,movie,time):
+        self.movie = movie
+        self.time = time
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(750, 800)

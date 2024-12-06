@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 import requests
 
 class Ui_NU_page(object):
@@ -144,9 +145,11 @@ class Ui_NU_page(object):
         request = requests.post("http://aleck.pythonanywhere.com/registration", json={"name":name,"password":password,"username":user_name})
         if request.status_code == 201:
             print("Added")
-            
+            QMessageBox.information(None, "Purchase", "New user added successfully!")    
+            nu_page.close()
         else:
             print("Error")
+            QMessageBox.information(None, "Purchase", "Error try again later")
 
 
 if __name__ == "__main__":
