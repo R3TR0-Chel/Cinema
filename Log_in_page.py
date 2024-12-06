@@ -203,3 +203,5 @@ if __name__ == "__main__":
     ui.setupUi(Log_in_page)
     Log_in_page.show()
     sys.exit(app.exec_())
+    
+#fdjghdkfjhgkj
