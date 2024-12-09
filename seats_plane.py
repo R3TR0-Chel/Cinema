@@ -10,7 +10,7 @@ class seating_plan(object):
         self.user = None
         self.selected_seats = []
         
-    def add_atriburs(self, data, user ,time,movie):
+    def add_atriburs(self, user ,time,movie):
         # self.seats = data
         self.user = user
         self.time = time

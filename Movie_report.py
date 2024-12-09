@@ -1,7 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import requests
 
 class Ui_Movie_report(object):
+    def add_data(self, movie, time):
+        self.movie = movie
+        self.time = time
+
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(750, 800)
@@ -97,15 +101,9 @@ class Ui_Movie_report(object):
 
     def add_items_to_listview(self):
         # Create a list of strings to add
-        items = [
-            "Avengers: Endgame",
-            "The Dark Knight",
-            "Inception",
-            "Titanic",
-            "Interstellar",
-            "Avatar"
-        ]
-
+        request = requests.post("https://aleck.pythonanywhere.com/people-watched" ,json={"movie":self.movie, "schedule":self.time})
+        print(request.status_code, request.json())
+        items = request.json()["people"]
         # Loop through the items and add them to the model
         for item in items:
             list_item = QtGui.QStandardItem(item)
