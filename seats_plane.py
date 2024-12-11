@@ -9,20 +9,31 @@ class seating_plan(object):
         self.time = None
         self.user = None
         self.selected_seats = []
-        
-    def add_atriburs(self, user ,time,movie):
-        # self.seats = data
+
+    def add_atriburs(self, user, time, movie):
         self.user = user
         self.time = time
         self.movie = movie
+        self.selected_seats = []  # Reset selected seats
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1270, 720)
+        Form.setStyleSheet("""
+            QPushButton {
+                background-color: #d3d3d3;
+                border: none;
+                border-radius: 10px;
+                color: white;
+                font-size: 14px;
+                font-weight: bold;
+                padding: 10px;
+            }
+        """)
 
         # Adjust grid layout container size
         self.gridLayoutWidget = QtWidgets.QWidget(Form)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(50, 30, 1170, 600))  # Updated dimensions
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(50, 30, 1170, 600))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -30,24 +41,24 @@ class seating_plan(object):
 
         # Centered "Buy" button
         self.pushButton = QtWidgets.QPushButton(Form)
-        self.pushButton.setGeometry(QtCore.QRect(560, 630, 130, 60))  # Updated position
+        self.pushButton.setGeometry(QtCore.QRect(560, 630, 130, 60))
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setStyleSheet("""
             QPushButton {
-                background-color: #f0ad4e; /* Оранжевый цвет */
+                background-color: #f0ad4e;
                 border: none;
-                border-radius: 20px; /* Закругленные края */
+                border-radius: 20px;
                 color: white;
-                font-size: 18px; /* Увеличенный шрифт */
-                font-weight: bold; /* Полужирный текст */
-                padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
+                font-size: 18px;
+                font-weight: bold;
+                padding: 10px;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             }
             QPushButton:hover {
-                background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
+                background-color: #ffbf6e;
             }
             QPushButton:pressed {
-                background-color: #d98a36; /* Темный оранжевый при нажатии */
+                background-color: #d98a36;
             }
         """)
 
@@ -58,7 +69,7 @@ class seating_plan(object):
         self.pushButton.clicked.connect(self.buy_seats)
 
         # Seat Booking Setup
-        self.seat_data_url = "https://aleck.pythonanywhere.com/seats"  # Example URL
+        self.seat_data_url = "https://aleck.pythonanywhere.com/seats"
         self.fetch_seat_data()
 
     def retranslateUi(self, Form):
@@ -76,14 +87,14 @@ class seating_plan(object):
         except requests.exceptions.RequestException as e:
             QMessageBox.critical(None, "Error", f"Failed to fetch seat data: {e}")
 
-    def generate_seats(self,seat_data):
+    def generate_seats(self, seat_data):
         # Define the layout with empty spaces
         seat_layout = [
-            [1] * 17,  # First row - 17 seats
-            [1] * 17,  # Second row - 17 seats
-            [1] * 17,  # Third row - 17 seats
-            [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],  # Fourth row with gaps
-            [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1]   # Fifth row with gaps
+            [1] * 17,
+            [1] * 17,
+            [1] * 17,
+            [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+            [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1]
         ]
 
         booked_seats = seat_data
@@ -92,25 +103,25 @@ class seating_plan(object):
             for col_idx, seat in enumerate(row):
                 if seat == 1:  # Seat exists at this position
                     seat_button = QPushButton()
-                    seat_button.setFixedSize(40, 40)  # Square buttons
+                    seat_button.setFixedSize(40, 40)
                     seat_button.setCheckable(True)
-                    seat_button.setProperty("index",[row_idx,col_idx])
-                    # Define base style for all buttons with rounded edges
+                    seat_button.setProperty("index", [row_idx, col_idx])
+
                     base_style = """
                         QPushButton {
-                            border-radius: 5px;  /* Slightly rounded corners */
+                            border-radius: 5px;
                             border: none;
-                            background-color: #5a5a5a;  /* Default available seats color (dark gray) */
+                            background-color: #d3d3d3;  /* Default available seats color (light gray) */
                         }
                         QPushButton:disabled {
-                            background-color: #d9534f;  /* Booked seats color (red) */
+                            background-color: #d9534f;
                         }
-                        QPushButton#reserved_by_you{
-                            background-color: green;  
+                        QPushButton#reserved_by_you {
+                            background-color: green;
                         }
                     """
-                    # Identify if the seat is booked
-                    for user, seats in booked_seats["booked"].items(): 
+
+                    for user, seats in booked_seats["booked"].items():
                         if [row_idx, col_idx] in seats and self.user != user:
                             seat_button.setChecked(True)
                             seat_button.setEnabled(False)
@@ -121,7 +132,7 @@ class seating_plan(object):
                             seat_button.setObjectName("reserved_by_you")
                             seat_button.setStyleSheet(base_style)
                         else:
-                            seat_button.setStyleSheet(base_style) 
+                            seat_button.setStyleSheet(base_style)
 
                     seat_button.clicked.connect(lambda _, b=seat_button: self.handle_seat_selection(b))
                     self.gridLayout.addWidget(seat_button, row_idx, col_idx)
@@ -130,29 +141,27 @@ class seating_plan(object):
         if seat_button.isChecked():
             seat_button.setStyleSheet("""
                 QPushButton {
-                    background-color: #f0ad4e;  /* Selected seats color (orange) */
-                    border-radius: 5px;  /* Slightly rounded corners */
+                    background-color: #f0ad4e;
+                    border-radius: 5px;
                     border: none;
                 }
             """)
             self.selected_seats.append(seat_button.property("index"))
-        
         else:
             seat_button.setStyleSheet("""
                 QPushButton {
-                    background-color: #5a5a5a;  /* Available seats color (dark gray) */
-                    border-radius: 5px;  /* Slightly rounded corners */
+                    background-color: #d3d3d3;
+                    border-radius: 5px;
                     border: none;
                 }
             """)
             self.selected_seats.remove(seat_button.property("index"))
 
     def buy_seats(self):
-        request = requests.post("https://aleck.pythonanywhere.com/seats-buy", json={"username":self.user, "schedule":self.time, "movie":self.movie, "seats":self.selected_seats})
+        request = requests.post("https://aleck.pythonanywhere.com/seats-buy", json={"username": self.user, "schedule": self.time, "movie": self.movie, "seats": self.selected_seats})
         print(request.json())
         self.fetch_seat_data()
         QMessageBox.information(None, "Purchase", "Seats purchased successfully!")
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

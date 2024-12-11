@@ -4,6 +4,7 @@ import requests
 
 class Ui_NU_page(object):
     def setupUi(self, Log_in_page):
+        self.nu_page = Log_in_page  # Сохраняем ссылку на форму как атрибут класса
         Log_in_page.setObjectName("Log_in_page")
         Log_in_page.resize(700, 730)
         font = QtGui.QFont()
@@ -26,23 +27,17 @@ class Ui_NU_page(object):
         font.setPointSize(32)
         self.title.setFont(font)
         self.title.setObjectName("title")
-        self.title.setAlignment(QtCore.Qt.AlignCenter)  # Выровнять текст по центру
+        self.title.setAlignment(QtCore.Qt.AlignCenter)
         self.title.setStyleSheet("""
             QLabel {
-                background-color: #f0ad4e; /* Оранжевый цвет */
+                background-color: #f0ad4e;
                 border: none;
-                border-radius: 20px; /* Закругленные края */
+                border-radius: 20px;
                 color: white;
-                font-size: 32px; /* Увеличенный шрифт */
-                font-weight: bold; /* Полужирный текст */
-                padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
-            }
-            QPushButton:hover {
-                background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
-            }
-            QPushButton:pressed {
-                background-color: #d98a36; /* Темный оранжевый при нажатии */
+                font-size: 32px;
+                font-weight: bold;
+                padding: 10px;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             }
         """)
         self.User_name_input = QtWidgets.QLineEdit(Log_in_page)
@@ -53,18 +48,17 @@ class Ui_NU_page(object):
         self.User_name_input.setObjectName("User_name_input")
         self.User_name_input.setStyleSheet("""
     QLineEdit {
-        background-color: rgba(0, 0, 0, 100); /* Прозрачный фон с черным оттенком */
-        border: 2px solid white; /* Белая рамка */
-        border-radius: 20px; /* Закругленные углы */
-        color: white; /* Цвет текста */
-        padding-left: 10px; /* Отступ для текста */
-        font-size: 16px; /* Размер текста */
+        background-color: rgba(0, 0, 0, 100);
+        border: 2px solid white;
+        border-radius: 20px;
+        color: white;
+        padding-left: 10px;
+        font-size: 16px;
     }
     QLineEdit:focus {
-        border: 2px solid #f0ad4e; /* Цвет рамки при фокусе */
+        border: 2px solid #f0ad4e;
     }
 """)
-        
         self.name_input = QtWidgets.QLineEdit(Log_in_page)
         self.name_input.setGeometry(QtCore.QRect(170, 340, 371, 41))
         font = QtGui.QFont()
@@ -73,15 +67,15 @@ class Ui_NU_page(object):
         self.name_input.setObjectName("name_input")
         self.name_input.setStyleSheet("""
     QLineEdit {
-        background-color: rgba(0, 0, 0, 100); /* Прозрачный фон с черным оттенком */
-        border: 2px solid white; /* Белая рамка */
-        border-radius: 20px; /* Закругленные углы */
-        color: white; /* Цвет текста */
-        padding-left: 10px; /* Отступ для текста */
-        font-size: 16px; /* Размер текста */
+        background-color: rgba(0, 0, 0, 100);
+        border: 2px solid white;
+        border-radius: 20px;
+        color: white;
+        padding-left: 10px;
+        font-size: 16px;
     }
     QLineEdit:focus {
-        border: 2px solid #f0ad4e; /* Цвет рамки при фокусе */
+        border: 2px solid #f0ad4e;
     }
 """)
         self.sign_in_button = QtWidgets.QPushButton(Log_in_page)
@@ -90,20 +84,20 @@ class Ui_NU_page(object):
         self.sign_in_button.clicked.connect(self.sing_in_clicked)
         self.sign_in_button.setStyleSheet("""
             QPushButton {
-                background-color: #f0ad4e; /* Оранжевый цвет */
+                background-color: #f0ad4e;
                 border: none;
-                border-radius: 20px; /* Закругленные края */
+                border-radius: 20px;
                 color: white;
-                font-size: 18px; /* Увеличенный шрифт */
-                font-weight: bold; /* Полужирный текст */
-                padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
+                font-size: 18px;
+                font-weight: bold;
+                padding: 10px;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             }
             QPushButton:hover {
-                background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
+                background-color: #ffbf6e;
             }
             QPushButton:pressed {
-                background-color: #d98a36; /* Темный оранжевый при нажатии */
+                background-color: #d98a36;
             }
         """)
         self.verify_password_input = QtWidgets.QLineEdit(Log_in_page)
@@ -114,15 +108,15 @@ class Ui_NU_page(object):
         self.verify_password_input.setObjectName("verify_password_input")
         self.verify_password_input.setStyleSheet("""
     QLineEdit {
-        background-color: rgba(0, 0, 0, 100); /* Прозрачный фон с черным оттенком */
-        border: 2px solid white; /* Белая рамка */
-        border-radius: 20px; /* Закругленные углы */
-        color: white; /* Цвет текста */
-        padding-left: 10px; /* Отступ для текста */
-        font-size: 16px; /* Размер текста */
+        background-color: rgba(0, 0, 0, 100);
+        border: 2px solid white;
+        border-radius: 20px;
+        color: white;
+        padding-left: 10px;
+        font-size: 16px;
     }
     QLineEdit:focus {
-        border: 2px solid #f0ad4e; /* Цвет рамки при фокусе */
+        border: 2px solid #f0ad4e;
     }
 """)
 
@@ -142,15 +136,15 @@ class Ui_NU_page(object):
         name = self.name_input.text().strip()
         user_name = self.User_name_input.text().strip()
         password = self.verify_password_input.text().strip()
-        request = requests.post("http://aleck.pythonanywhere.com/registration", json={"name":name,"password":password,"username":user_name})
+        request = requests.post("http://aleck.pythonanywhere.com/registration", json={"name": name, "password": password, "username": user_name})
         if request.status_code == 201:
             print("Added")
-            QMessageBox.information(None, "Purchase", "New user added successfully!")    
-            nu_page.close()
+            QMessageBox.information(None, "Registration", "New user added successfully!")
+            if self.nu_page:  # Проверяем, существует ли форма
+                self.nu_page.close()
         else:
             print("Error")
-            QMessageBox.information(None, "Purchase", "Error try again later")
-
+            QMessageBox.information(None, "Registration", "Error. Try again later.")
 
 if __name__ == "__main__":
     import sys

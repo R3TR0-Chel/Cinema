@@ -47,8 +47,7 @@ class Ui_Main_page(object):
          # Левый контейнер
         self.Left_container = QtWidgets.QWidget(Main_page)
         self.Left_container.setGeometry(QtCore.QRect(25, 65, 250, 600))
-        self.Left_container.setObjectName("Left_container")
-        
+        self.Left_container.setObjectName("Left_container") 
 
      # Создаем QScrollArea для левого контейнера
         self.Left_scroll_area = QtWidgets.QScrollArea(self.Left_container)
@@ -104,7 +103,6 @@ class Ui_Main_page(object):
                 background-color: #d98a36; /* Темный оранжевый при нажатии */
             }
         """)
-
         # Создание и настройка списка для фильмов
         self.frame = QtWidgets.QFrame(Main_page)
         self.frame.setGeometry(QtCore.QRect(350, 120, 600, 300))
@@ -140,9 +138,7 @@ class Ui_Main_page(object):
         background-color: #f0ad4e; /* Оранжевая подсветка выбранного элемента */
         color: black; /* Цвет текста выбранного элемента */
     }
-""")
-
-        
+""")      
         self.Schedule_list = QtWidgets.QListWidget(self.frame)
         self.Schedule_list.setGeometry(QtCore.QRect(290, 0, 311, 301))
         self.Schedule_list.setObjectName("Schedule_list")
@@ -170,10 +166,8 @@ class Ui_Main_page(object):
         color: black; /* Цвет текста выбранного элемента */
     }
 """)
-
         # Добавляем постеры в контейнеры
         self.displayPosters()
-
         # Создание кнопок
         self.Buy_button = QtWidgets.QPushButton(Main_page)
         self.Buy_button.setGeometry(QtCore.QRect(550, 480, 180, 65))
@@ -322,9 +316,6 @@ class Ui_Main_page(object):
             print("error")
         self.Uinfo.show()
         
-        
-            
-
     def retranslateUi(self, Main_page):
         _translate = QtCore.QCoreApplication.translate
         Main_page.setWindowTitle(_translate("Main_page", "Form"))
