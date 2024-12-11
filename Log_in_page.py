@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 from main_page import Ui_Main_page
 from NU_user_page import Ui_NU_page
 import requests
@@ -185,6 +186,7 @@ class Ui_Log_in_page(object):
             self.main_page.show()
             Log_in_page.close()
         else:
+            QMessageBox.information(None, "Registration", "Error! wrong username or password")
             print("Error")
             
     def nu_button_clikced(self):
@@ -194,7 +196,6 @@ class Ui_Log_in_page(object):
             self.ui_nu_page.setupUi(self.nu_page)
         self.nu_page.show()
         
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -203,5 +204,3 @@ if __name__ == "__main__":
     ui.setupUi(Log_in_page)
     Log_in_page.show()
     sys.exit(app.exec_())
-    
-#fdjghdkfjhgkj
