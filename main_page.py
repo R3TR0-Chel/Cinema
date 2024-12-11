@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Movies_class import movie
 from seats_plane import seating_plan
 import requests
+from PyQt5.QtWidgets import QMessageBox
 from Movie_report import Ui_Movie_report
 from User_report import Ui_User_report
 class Ui_Main_page(object):
@@ -273,36 +274,41 @@ class Ui_Main_page(object):
         self.Schedule_list.addItems(schedule)
     
     def buy_button_clicked(self):
-        time = self.Schedule_list.currentItem().text()
-        movie = self.Movie_list.currentItem().text()
-        if time and movie:
-            if self.seats_plan is None:
+       try:
+           time = self.Schedule_list.currentItem().text()
+           movie = self.Movie_list.currentItem().text()
+           if self.seats_plan is None:
                 self.seats_plan = QtWidgets.QWidget()
                 self.ui_seats = seating_plan()
                 self.ui_seats.add_atriburs( self.user,time,movie)
                 self.ui_seats.setupUi(self.seats_plan)
-            else:
+           else:
                 self.ui_seats.add_atriburs( self.user, time,movie)
                 print(self.ui_seats.movie,self.ui_seats.time)
                 self.ui_seats.setupUi(self.seats_plan)
                 print(True)
-            self.seats_plan.show()
+           self.seats_plan.show()
+       except:
+            QMessageBox.information(None, "Error", "Movie or schedule wasn't selected ")
             
     def movie_info_buttton_clicked(self):
-        movie = self.Movie_list.currentItem().text()
-        if self.Mi is None:
-            self.Mi = QtWidgets.QWidget()
-            self.ui_mi=Ui_Movie_report()
-            self.ui_mi.add_data(movie)
-            self.ui_mi.setupUi(self.Mi)
-            self.ui_mi.update_combobox_with_movie_data()
-        else:
-            self.Mi = QtWidgets.QWidget()
-            self.ui_mi=Ui_Movie_report()
-            self.ui_mi.add_data(movie)
-            self.ui_mi.setupUi(self.Mi)
-            self.ui_mi.update_combobox_with_movie_data()
-        self.Mi.show()
+        try:
+            movie = self.Movie_list.currentItem().text()
+            if self.Mi is None:
+                self.Mi = QtWidgets.QWidget()
+                self.ui_mi=Ui_Movie_report()
+                self.ui_mi.add_data(movie)
+                self.ui_mi.setupUi(self.Mi)
+                self.ui_mi.update_combobox_with_movie_data()
+            else:
+                self.Mi = QtWidgets.QWidget()
+                self.ui_mi=Ui_Movie_report()
+                self.ui_mi.add_data(movie)
+                self.ui_mi.setupUi(self.Mi)
+                self.ui_mi.update_combobox_with_movie_data()
+            self.Mi.show()
+        except:
+             QMessageBox.information(None, "Error", "Movie wasn't selected")
     
     def user_info_button_clicked(self):
         if self.Uinfo is None:

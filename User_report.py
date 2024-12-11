@@ -39,14 +39,15 @@ class Ui_User_report(object):
         self.user_output.setGeometry(QtCore.QRect(170, 190, 400, 500))
         self.user_output.setObjectName("user_output")
         self.user_output.setStyleSheet("""
-    QListView {
-        background-color: rgba(200, 200, 200, 200); /* Прозрачный черный фон */
-        border: 2px solid white; /* Белая рамка */
-        border-radius: 15px; /* Закругленные углы */
-        color: white; /* Цвет текста */
-        font-size: 14px; /* Размер шрифта */
-        padding: 5px; /* Внутренние отступы */
-    }""")
+        QListView {
+            background-color: rgba(200, 200, 200, 90%); 
+            border: 2px solid white; 
+            border-radius: 15px; 
+            color: black; 
+            font-size: 14px; 
+            padding: 5px; 
+        }
+        """)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
