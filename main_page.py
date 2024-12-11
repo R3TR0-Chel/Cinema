@@ -293,18 +293,19 @@ class Ui_Main_page(object):
             self.seats_plan.show()
             
     def movie_info_buttton_clicked(self):
-        time = self.Schedule_list.currentItem().text()
         movie = self.Movie_list.currentItem().text()
         if self.Mi is None:
             self.Mi = QtWidgets.QWidget()
             self.ui_mi=Ui_Movie_report()
-            self.ui_mi.add_data(movie, time)
+            self.ui_mi.add_data(movie)
             self.ui_mi.setupUi(self.Mi)
+            self.ui_mi.update_combobox_with_movie_data()
         else:
             self.Mi = QtWidgets.QWidget()
             self.ui_mi=Ui_Movie_report()
-            self.ui_mi.add_data(movie, time)
+            self.ui_mi.add_data(movie)
             self.ui_mi.setupUi(self.Mi)
+            self.ui_mi.update_combobox_with_movie_data()
         self.Mi.show()
     
     def user_info_button_clicked(self):

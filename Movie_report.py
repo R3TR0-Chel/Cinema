@@ -1,14 +1,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import requests
+from PyQt5.QtWidgets import QComboBox
 
 
 class Ui_Movie_report(object):
     def __init__(self):
         self.movie = None
         self.time = None
-        
-    def add_data(self,movie,time):
+        self.movie_data = None
+
+    def add_data(self, movie):
         self.movie = movie
-        self.time = time
+
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(750, 800)
@@ -21,7 +24,6 @@ class Ui_Movie_report(object):
             }
             """
         )
-    
 
         # Title (Logo) Outside the Frame
         self.logo_title = QtWidgets.QLabel(Form)
@@ -41,7 +43,7 @@ class Ui_Movie_report(object):
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.frame.setStyleSheet("""
+        self.frame.setStyleSheet("""\
             QFrame {
                 background-color: rgba(200, 200, 200, 200); /* Light transparent background */
                 border: 2px solid white; /* White border */
@@ -61,6 +63,7 @@ class Ui_Movie_report(object):
         self.comboBox = QtWidgets.QComboBox(self.frame)
         self.comboBox.setGeometry(QtCore.QRect(150, 50, 200, 30))
         self.comboBox.setObjectName("comboBox")
+        self.comboBox.currentIndexChanged.connect(self.update_list_view)
 
         # Quantity Section
         self.quantity_title = QtWidgets.QLabel(self.frame)
@@ -97,30 +100,34 @@ class Ui_Movie_report(object):
         self.model = QtGui.QStandardItemModel()
         self.listView.setModel(self.model)
 
-        # Add items to the model (ListView)
-        self.add_items_to_listview()
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
-        
-    def add_atridut(self,movie):
-        self.movie = movie
-#lsdgljkn
-    def add_items_to_listview(self):
-        # Create a list of strings to add
-        items = [
-            "Avengers: Endgame",
-            "The Dark Knight",
-            "Inception",
-            "Titanic",
-            "Interstellar",
-            "Avatar"
-        ]
 
-        # Loop through the items and add them to the model
-        for item in items:
-            list_item = QtGui.QStandardItem(item)
-            self.model.appendRow(list_item)
+    def update_list_view(self):
+        self.model.clear()
+        quantity = 0
+        for name, seats in self.movie_data["schedule"][self.comboBox.currentText()].items():
+                list_item = QtGui.QStandardItem(name)
+                self.model.appendRow(list_item)
+                quantity += len(seats)
+        self.title_output_2.setText(str(quantity))
+        self.title_output_3.setText(str(81 - quantity))
+
+    def update_combobox_with_movie_data(self):
+        # Request data from the server
+        response = requests.get(f"http://aleck.pythonanywhere.com/movies-time?name={self.movie}")
+        if response.status_code == 200:
+             
+            self.movie_data = response.json()
+            print(self.movie_data)
+            self.comboBox.clear()
+            for item in self.movie_data.get('schedule', []).keys():
+                self.comboBox.addItem(item)
+            self.update_list_view()
+            
+        else:
+            print("Failed to fetch movie data")
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
