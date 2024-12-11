@@ -190,7 +190,13 @@ class Ui_Log_in_page(object):
             self.nu_page = QtWidgets.QWidget()
             self.ui_nu_page = Ui_NU_page()
             self.ui_nu_page.setupUi(self.nu_page)
-        self.nu_page.show()
+            self.nu_page.show()
+        else:
+            self.nu_page = QtWidgets.QWidget()
+            self.ui_nu_page = Ui_NU_page()
+            self.ui_nu_page.setupUi(self.nu_page)
+            self.nu_page.show()
+            
         
 if __name__ == "__main__":
     import sys
