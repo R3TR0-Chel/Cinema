@@ -313,6 +313,7 @@ class Ui_Main_page(object):
             self.Uinfo = QtWidgets.QWidget()
             self.ui_Ui=Ui_User_report(self.user)
             self.ui_Ui.setupUi(self.Uinfo)
+            self.ui_Ui.user_history()
         else:
             print("error")
         self.Uinfo.show()

@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import requests
 
 
 class Ui_User_report(object):
@@ -57,6 +58,15 @@ class Ui_User_report(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.title.setText(_translate("Form", "Moviepoint"))
         
+    def user_history(self):
+        responce = requests.get(f"http://aleck.pythonanywhere.com/watched?username={self.user}").json()
+        self.model = QtGui.QStandardItemModel()
+        print(responce)
+        for item in responce["watched"]:
+            self.model.appendRow(QtGui.QStandardItem(str(f"{item[0]} {item[1]}")))
+        self.user_output.setModel(self.model)
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
