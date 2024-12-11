@@ -117,6 +117,7 @@ class Ui_Movie_report(object):
     def update_combobox_with_movie_data(self):
         # Request data from the server
         response = requests.get(f"http://aleck.pythonanywhere.com/movies-time?name={self.movie}")
+        print(response.status_code)
         if response.status_code == 200:
              
             self.movie_data = response.json()

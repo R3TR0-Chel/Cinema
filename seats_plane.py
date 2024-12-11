@@ -159,11 +159,14 @@ class seating_plan(object):
 
     def buy_seats(self):
         print(self.selected_seats)
-        request = requests.post("https://aleck.pythonanywhere.com/seats-buy", json={"username": self.user, "schedule": self.time, "movie": self.movie, "seats": self.selected_seats})
-        print(request.json())
-        self.fetch_seat_data()
-        self.selected_seats = []
-        QMessageBox.information(None, "Purchase", "Seats purchased successfully!")
+        if len(self.selected_seats) == 0:
+            QMessageBox.information(None, "Purchase", "No seats have been selected")
+        else:
+            request = requests.post("https://aleck.pythonanywhere.com/seats-buy", json={"username": self.user, "schedule": self.time, "movie": self.movie, "seats": self.selected_seats})
+            print(request.json())
+            self.fetch_seat_data()
+            self.selected_seats = []
+            QMessageBox.information(None, "Purchase", "Seats purchased successfully!")
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
