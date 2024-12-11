@@ -94,7 +94,6 @@ class Ui_Main_page(object):
                 font-size: 32px; /* Увеличенный шрифт */
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
             QPushButton:hover {
                 background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
@@ -185,7 +184,6 @@ class Ui_Main_page(object):
                 font-size: 18px; /* Увеличенный шрифт */
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
             QPushButton:hover {
                 background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
@@ -211,7 +209,6 @@ class Ui_Main_page(object):
                 font-size: 18px; /* Увеличенный шрифт */
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
             QPushButton:hover {
                 background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
@@ -237,7 +234,6 @@ class Ui_Main_page(object):
                 font-size: 18px; /* Увеличенный шрифт */
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
             QPushButton:hover {
                 background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
@@ -315,7 +311,10 @@ class Ui_Main_page(object):
             self.ui_Ui.setupUi(self.Uinfo)
             self.ui_Ui.user_history()
         else:
-            print("error")
+            self.Uinfo = QtWidgets.QWidget()
+            self.ui_Ui=Ui_User_report(self.user)
+            self.ui_Ui.setupUi(self.Uinfo)
+            self.ui_Ui.user_history()
         self.Uinfo.show()
         
     def retranslateUi(self, Main_page):

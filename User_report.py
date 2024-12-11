@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import requests
 
-
 class Ui_User_report(object):
     def __init__(self,user):
         self.user = user
@@ -33,7 +32,6 @@ class Ui_User_report(object):
                 font-size: 32px; /* Увеличенный шрифт */
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
            
         """)

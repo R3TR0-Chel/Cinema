@@ -52,7 +52,6 @@ class seating_plan(object):
                 font-size: 18px;
                 font-weight: bold;
                 padding: 10px;
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             }
             QPushButton:hover {
                 background-color: #ffbf6e;

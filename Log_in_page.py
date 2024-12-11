@@ -43,7 +43,6 @@ class Ui_Log_in_page(object):
                 font-size: 32px; /* Увеличенный шрифт */
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
            
         """)
@@ -103,7 +102,6 @@ class Ui_Log_in_page(object):
                 font-size: 18px; /* Увеличенный шрифт */
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
             QPushButton:hover {
                 background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
@@ -127,7 +125,6 @@ class Ui_Log_in_page(object):
                 font-size: 18px; /* Увеличенный шрифт */
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
             QPushButton:hover {
                 background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
@@ -149,7 +146,6 @@ class Ui_Log_in_page(object):
                 font-size: 18px; /* Увеличенный шрифт */
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень */
             }
             QPushButton:hover {
                 background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
