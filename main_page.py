@@ -33,6 +33,7 @@ class Ui_Main_page(object):
     def setupUi(self, Main_page):
         Main_page.setObjectName("Main_page")
         Main_page.resize(1270, 720)
+        Main_page.setFixedSize(1270, 720)
         Main_page.setStyleSheet(
             """
             #Main_page {

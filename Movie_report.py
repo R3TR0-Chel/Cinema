@@ -15,6 +15,7 @@ class Ui_Movie_report(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(750, 800)
+        Form.setFixedSize(750, 800)
         Form.setStyleSheet(
             """
             #Form {

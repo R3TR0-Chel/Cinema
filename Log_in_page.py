@@ -13,6 +13,7 @@ class Ui_Log_in_page(object):
     def setupUi(self, Log_in_page):
         Log_in_page.setObjectName("Log_in_page")
         Log_in_page.resize(700, 730)
+        Log_in_page.setFixedSize(700, 730)
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(False)
