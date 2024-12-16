@@ -162,10 +162,17 @@ class seating_plan(object):
             QMessageBox.information(None, "Purchase", "No seats have been selected")
         else:
             request = requests.post("https://aleck.pythonanywhere.com/seats-buy", json={"username": self.user, "schedule": self.time, "movie": self.movie, "seats": self.selected_seats})
-            print(request.json())
-            self.fetch_seat_data()
-            self.selected_seats = []
-            QMessageBox.information(None, "Purchase", "Seats purchased successfully!")
+            print(request.status_code)
+            if request.status_code == 200:
+                print(request.json())
+                self.fetch_seat_data()
+                self.selected_seats = []
+                QMessageBox.information(None, "Purchase", "Seats purchased successfully!")
+            else:
+                self.selected_seats =[]
+                self.fetch_seat_data()
+                QMessageBox.information(None, "Purchase", "selected seats has been booked before")
+                
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

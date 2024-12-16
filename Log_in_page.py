@@ -47,7 +47,6 @@ class Ui_Log_in_page(object):
                 font-weight: bold; /* Полужирный текст */
                 padding: 10px; /* Отступы внутри кнопки */
             }
-           
         """)
 
         self.User_name_input = QtWidgets.QLineEdit(Log_in_page)
@@ -69,6 +68,7 @@ class Ui_Log_in_page(object):
         border: 2px solid #f0ad4e; /* Цвет рамки при фокусе */
     }
 """)
+        
         self.Password_input = QtWidgets.QLineEdit(Log_in_page)
         self.Password_input.setGeometry(QtCore.QRect(170, 340, 371, 41))
         font = QtGui.QFont()
@@ -98,23 +98,7 @@ class Ui_Log_in_page(object):
         self.Log_in_button.setObjectName("Log_in_button")
         self.Log_in_button.setEnabled(False)
         self.Log_in_button.clicked.connect(self.Login_button_clicked)
-        self.Log_in_button.setStyleSheet("""
-            QPushButton {
-                background-color: #f0ad4e; /* Оранжевый цвет */
-                border: none;
-                border-radius: 20px; /* Закругленные края */
-                color: white;
-                font-size: 18px; /* Увеличенный шрифт */
-                font-weight: bold; /* Полужирный текст */
-                padding: 10px; /* Отступы внутри кнопки */
-            }
-            QPushButton:hover {
-                background-color: #ffbf6e; /* Более светлый оранжевый при наведении */
-            }
-            QPushButton:pressed {
-                background-color: #d98a36; /* Темный оранжевый при нажатии */
-            }
-        """)
+        self.toggle_login_button(QtCore.Qt.Unchecked)  # Установить начальное состояние
 
         self.Captcha_button = QtWidgets.QPushButton(Log_in_page)
         self.Captcha_button.setGeometry(QtCore.QRect(260, 520, 175, 71))
@@ -174,7 +158,38 @@ class Ui_Log_in_page(object):
         self.New_user_button.setText(_translate("Log_in_page", "New user"))
 
     def toggle_login_button(self, state):
-        self.Log_in_button.setEnabled(state == QtCore.Qt.Checked)
+        if state == QtCore.Qt.Checked:
+            self.Log_in_button.setEnabled(True)
+            self.Log_in_button.setStyleSheet("""
+                QPushButton {
+                    background-color: #f0ad4e; /* Оранжевый цвет */
+                    border: none;
+                    border-radius: 20px;
+                    color: white;
+                    font-size: 18px;
+                    font-weight: bold;
+                    padding: 10px;
+                }
+                QPushButton:hover {
+                    background-color: #ffbf6e;
+                }
+                QPushButton:pressed {
+                    background-color: #d98a36;
+                }
+            """)
+        else:
+            self.Log_in_button.setEnabled(False)
+            self.Log_in_button.setStyleSheet("""
+                QPushButton {
+                    background-color: #d9534f; /* Красный цвет */
+                    border: none;
+                    border-radius: 20px;
+                    color: white;
+                    font-size: 18px;
+                    font-weight: bold;
+                    padding: 10px;
+                }
+            """)
 
     def open_captcha_panel(self):
         if self.captcha_panel is None:
@@ -198,6 +213,8 @@ class Ui_Log_in_page(object):
             self.captcha_panel.accept()
             self.Captcha_button.setText("Captcha Passed")
             self.toggle_login_button(QtCore.Qt.Checked)
+        else:
+            self.toggle_login_button(QtCore.Qt.Unchecked)
 
     def Login_button_clicked(self):
         name = self.User_name_input.text().strip()
